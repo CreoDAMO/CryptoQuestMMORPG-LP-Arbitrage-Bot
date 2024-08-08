@@ -1,9 +1,9 @@
 # Variables
 PROJECT_NAME = cryptoquest-arbitrage-bot
-START_SCRIPT = npm start
-BUILD_SCRIPT = npm run build
-INSTALL_SCRIPT = npm install
-DEV_SCRIPT = npm run dev
+START_SCRIPT = npx next start
+BUILD_SCRIPT = npx next build
+INSTALL_SCRIPT = npm install --legacy-peer-deps
+DEV_SCRIPT = npx next dev
 
 # Phony targets are not actual files
 .PHONY: help install start dev build lint format test clean
@@ -41,15 +41,15 @@ build:
 
 # Lint the project
 lint:
-	npm run lint
+	npx eslint .
 
 # Format the project
 format:
-	npm run format
+	npx prettier --write .
 
 # Run tests
 test:
-	npm test
+	npx jest
 
 # Clean up the project
 clean:
