@@ -1,33 +1,67 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --background-color: #f0f0f0;
+  --text-color: #333;
+  --neumorphic-light: #ffffff;
+  --neumorphic-dark: #d1d9e6;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Arial', sans-serif;
+  transition: all 0.3s ease;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.dark-mode {
+  --primary-color: #2980b9;
+  --secondary-color: #27ae60;
+  --background-color: #2c3e50;
+  --text-color: #ecf0f1;
+  --neumorphic-light: #34495e;
+  --neumorphic-dark: #2c3e50;
+}
+
+.neumorphic {
+  background: var(--neumorphic-light);
+  box-shadow: 8px 8px 15px var(--neumorphic-dark), -8px -8px 15px var(--neumorphic-light);
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.neumorphic:hover {
+  box-shadow: 12px 12px 20px var(--neumorphic-dark), -12px -12px 20px var(--neumorphic-light);
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+.btn {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background-color: var(--secondary-color);
+}
+
+.form-input {
+  background-color: var(--neumorphic-light);
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: inset 2px 2px 5px var(--neumorphic-dark), inset -2px -2px 5px var(--neumorphic-light);
 }

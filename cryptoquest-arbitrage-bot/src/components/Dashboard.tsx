@@ -1,28 +1,99 @@
-// src/components/Dashboard.tsx
+import React, { useEffect, useState } from 'react';
+import Chart from 'chart.js/auto';
 
-import { Box, Heading, SimpleGrid } from '@chakra-ui/react';
-import TradeForm from './TradeForm';
-import ReinvestForm from './ReinvestForm';
-import { ethers } from 'ethers';
+const Dashboard: React.FC = () => {
+    const [pairData, setPairData] = useState<{ midPrice: string, inversePrice: string } | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
 
-interface DashboardProps {
-  signer: ethers.Signer | null;
-}
+    useEffect(() => {
+        const fetchPairData = async () => {
+            try {
+                const response = await fetch('/api/getPairData');
+                const data = await response.json();
+                setPairData(data);
+            } catch (err) {
+                setError('Failed to fetch pair data');
+            } finally {
+                setLoading(false);
+            }
+        };
 
-const Dashboard: React.FC<DashboardProps> = ({ signer }) => (
-  <Box p={4}>
-    <Heading mb={6}>Dashboard</Heading>
-    <SimpleGrid columns={[1, null, 2]} spacing={4}>
-      <Box p={4} borderWidth="1px" borderRadius="lg">
-        <Heading size="md" mb={4}>Trade</Heading>
-        <TradeForm signer={signer} />
-      </Box>
-      <Box p={4} borderWidth="1px" borderRadius="lg">
-        <Heading size="md" mb={4}>Reinvest Profits</Heading>
-        <ReinvestForm signer={signer} />
-      </Box>
-    </SimpleGrid>
-  </Box>
-);
+        fetchPairData();
+    }, []);
+
+    useEffect(() => {
+        if (pairData) {
+            const ctx = document.getElementById('priceChart') as HTMLCanvasElement;
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [new Date()],
+                    datasets: [{
+                        label: 'CQT/MATIC Price',
+                        data: [parseFloat(pairData.midPrice)],
+                        borderColor: '#3498db',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'minute'
+                            }
+                        },
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+
+            const interval = setInterval(async () => {
+                const response = await fetch('/api/getPairData');
+                const data = await response.json();
+                setPairData(data);
+            }, 30000);
+
+            return () => clearInterval(interval);
+        }
+    }, [pairData]);
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
+
+    return (
+        <div>
+            <div className="neumorphic p-6 animate-float">
+                <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">Smart Contract Addresses</h2>
+                <ul className="space-y-2 text-gray-600 dark:text-gray-300">
+                    <li><strong>CQT:</strong> 0x94ef57abfBff1AD70bD00a921e1d2437f31C1665</li>
+                    <li><strong>MATIC:</strong> 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270</li>
+                    <li><strong>AAVE Pool Address Provider:</strong> 0x24a0e79e7ab9f4f4f2de9bafbf45303b093a7d34</li>
+                    <li><strong>Uniswap Pool:</strong> 0x0b3CD8a843DEFDF01564a0342a89ba06c4fC9394</li>
+                </ul>
+            </div>
+
+            {pairData && (
+                <div className="neumorphic p-6 mt-8">
+                    <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">Token Price Chart</h2>
+                    <p>1 MATIC = {pairData.midPrice} CQT</p>
+                    <p>1 CQT = {pairData.inversePrice} MATIC</p>
+                    <canvas id="priceChart"></canvas>
+                </div>
+            )}
+
+            <div className="mt-12 neumorphic p-6">
+                <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">How It Works</h2>
+                <p className="text-gray-600 dark:text-gray-300">
+                    The CryptoQuest LP Arbitrage Bot leverages flash loans and automated market making to execute profitable trades across different liquidity pools. By utilizing the AAVE lending pool and Uniswap, our bot can identify and capitalize on price discrepancies between CQT and MATIC tokens.
+                </p>
+            </div>
+        </div>
+    );
+};
 
 export default Dashboard;
