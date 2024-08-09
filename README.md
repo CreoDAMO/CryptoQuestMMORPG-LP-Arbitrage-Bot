@@ -28,7 +28,7 @@ The CryptoQuest LP Arbitrage Bot automates arbitrage trading between different d
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/CreoDAMO/CryptoQuestMMORPG-LP-Arbitrage-Bot
-   cd CryptoQuestMMORPG-LP-Arbitrage-Bot
+   cd cryptoquest-lp-arbitrage-bot
    ```
 
 2. **Install dependencies:**
