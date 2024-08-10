@@ -1,3 +1,7 @@
+// src/components/Header.tsx
+
+"use client";
+
 import React, { useEffect } from 'react';
 
 const Header: React.FC = () => {
@@ -19,7 +23,6 @@ const Header: React.FC = () => {
 
   const activateVoiceControl = () => {
     alert('Voice control activated. Try saying "scroll down" or "open chatbot".');
-    // Here you would add actual voice control implementation
   };
 
   return (

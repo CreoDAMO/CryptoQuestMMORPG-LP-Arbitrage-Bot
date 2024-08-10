@@ -1,3 +1,6 @@
+// src/components/Dashboard.tsx
+
+"use client";
 import React, { useEffect, useState } from 'react';
 
 const Dashboard: React.FC = () => {

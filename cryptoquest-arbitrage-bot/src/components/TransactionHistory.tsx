@@ -1,5 +1,6 @@
 // src/components/TransactionHistory.tsx
 
+"use client";
 import React, { useEffect, useState } from 'react';
 
 const TransactionHistory = ({ address }: { address: string }) => {
