@@ -1,4 +1,3 @@
-// src/utils/blockchain.ts
 import { ethers } from 'ethers';
 import { Token, Fetcher, Route } from '@uniswap/sdk';
 import { Pool } from '@aave/contract-helpers';
@@ -73,7 +72,7 @@ export async function addLiquidity(amountCQT: number, amountMATIC: number) {
     amount0Min: 0,
     amount1Min: 0,
     recipient: '0xCc380FD8bfbdF0c020de64075b86C84c2BB0AE79',
-    deadline: Math.floor(Date.now() / 1000) + 60 * 20
+    deadline: Math.floor(Date.now() / 1000) + 60 * 20,
   });
 
   console.log(`Liquidity addition transaction data: ${tx.data}`);
@@ -112,24 +111,106 @@ export async function executeTrade(buyExchange: string, sellExchange: string, am
 
 async function buyOnSushiSwap(amount: number) {
   // Implement SushiSwap buy logic here
+  // Example:
+  const sushiswapRouter = new ethers.Contract(
+    '0xd9e1cE17f2641F24aE83637ab66a2cca9C378B9F', // SushiSwap router address
+    [
+      'function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline) external payable returns (uint[] memory amounts)'
+    ],
+    provider
+  );
+
+  const signer = provider.getSigner();
+  const tx = await sushiswapRouter.connect(signer).swapExactETHForTokens(
+    0, // Amount out minimum (set to 0 for simplicity, should be calculated)
+    [MATIC_ADDRESS, CQT_ADDRESS], // Path
+    '0xCc380FD8bfbdF0c020de64075b86C84c2BB0AE79', // Recipient
+    Math.floor(Date.now() / 1000) + 60 * 20, // Deadline
+    { value: ethers.utils.parseUnits(amount.toString(), 'ether') }
+  );
+
+  await tx.wait();
+  return tx; // Return the transaction result
 }
 
 async function sellOnUniswap(amount: number) {
   // Implement Uniswap sell logic here
+  // Example:
+  const uniswapRouter = new ethers.Contract(
+    '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D', // Uniswap router address
+    [
+      'function swapExactTokensForETH(uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline) external returns (uint[] memory amounts)'
+    ],
+    provider
+  );
+
+  const signer = provider.getSigner();
+  const tx = await uniswapRouter.connect(signer).swapExactTokensForETH(
+    ethers.utils.parseUnits(amount.toString(), 'ether'), // Amount in
+    0, // Amount out minimum (set to 0 for simplicity, should be calculated)
+    [CQT_ADDRESS, MATIC_ADDRESS], // Path
+    '0xCc380FD8bfbdF0c020de64075b86C84c2BB0AE79', // Recipient
+    Math.floor(Date.now() / 1000) + 60 * 20 // Deadline
+  );
+
+  await tx.wait();
+  return tx; // Return the transaction result
 }
 
 async function buyOnUniswap(amount: number) {
   // Implement Uniswap buy logic here
+  const uniswapRouter = new ethers.Contract(
+    '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D', // Uniswap router address
+    [
+      'function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline) external payable returns (uint[] memory amounts)'
+    ],
+    provider
+  );
+
+  const signer = provider.getSigner();
+  const tx = await uniswapRouter.connect(signer).swapExactETHForTokens(
+    0, // Amount out minimum (set to 0 for simplicity, should be calculated)
+    [MATIC_ADDRESS, CQT_ADDRESS], // Path
+    '0xCc380FD8bfbdF0c020de64075b86C84c2BB0AE79', // Recipient
+    Math.floor(Date.now() / 1000) + 60 * 20, // Deadline
+    { value: ethers.utils.parseUnits(amount.toString(), 'ether') }
+  );
+
+  await tx.wait();
+  return tx; // Return the transaction result
 }
 
 async function sellOnSushiSwap(amount: number) {
   // Implement SushiSwap sell logic here
+  const sushiswapRouter = new ethers.Contract(
+    '0xd9e1cE17f2641F24aE83637ab66a2cca9C378B9F', // SushiSwap router address
+    [
+      'function swapExactTokensForETH(uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline) external returns (uint[] memory amounts)'
+    ],
+    provider
+  );
+
+  const signer = provider.getSigner();
+  const tx = await sushiswapRouter.connect(signer).swapExactTokensForETH(
+    ethers.utils.parseUnits(amount.toString(), 'ether'), // Amount in
+    0, // Amount out minimum (set to 0 for simplicity, should be calculated)
+    [CQT_ADDRESS, MATIC_ADDRESS], // Path
+    '0xCc380FD8bfbdF0c020de64075b86C84c2BB0AE79', // Recipient
+    Math.floor(Date.now() / 1000) + 60 * 20 // Deadline
+  );
+
+  await tx.wait();
+  return tx; // Return the transaction result
 }
 
 async function buyOnBalancer(amount: number) {
   // Implement Balancer buy logic here
+  // Example:
+  // Use Balancer SDK or direct contract interactions
 }
 
 async function sellOnBalancer(amount: number) {
   // Implement Balancer sell logic here
+  // Example:
+  // Use Balancer SDK or direct contract interactions
 }
