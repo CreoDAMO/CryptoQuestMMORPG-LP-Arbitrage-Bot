@@ -9,23 +9,24 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@uniswap/sdk": "^3.0.3",
     "autoprefixer": "^10.4.20",
-    "chart.js": "^3.7.1",
+    "chart.js": "^4.4.3",
     "ethers": "^6.13.2",
     "next": "14.2.5",
     "postcss": "^8.4.41",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "tailwindcss": "^3.4.9",
-    "three": "^0.132.2",
-    "vanta": "^0.5.21"
+    "three": "^0.134.0",
+    "vanta": "^0.5.24"
   },
   "devDependencies": {
-    "@types/node": "18.0.0",
-    "@types/react": "18.0.0",
-    "@types/three": "^0.132.2",
-    "eslint": "8.16.0",
-    "eslint-config-next": "12.2.5",
-    "typescript": "4.7.4"
+    "@types/node": "^22.2.0",
+    "@types/react": "^18.3.3",
+    "@types/three": "^0.134.0",
+    "eslint": "^9.9.0",
+    "eslint-config-next": "^14.2.5",
+    "typescript": "^5.5.4"
   }
 }
