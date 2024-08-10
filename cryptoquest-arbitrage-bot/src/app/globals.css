@@ -65,3 +65,18 @@ body {
   border-radius: 5px;
   box-shadow: inset 2px 2px 5px var(--neumorphic-dark), inset -2px -2px 5px var(--neumorphic-light);
 }
+
+/* Tailwind CSS Directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom global styles */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark-mode {
+  background-color: #121212;
+  color: #E0E0E0;
+}

@@ -13,7 +13,6 @@ const Home: React.FC = () => {
   const vantaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Ensure THREE is defined on the window object
     if (typeof window !== 'undefined') {
       (window as any).THREE = THREE;
     }
