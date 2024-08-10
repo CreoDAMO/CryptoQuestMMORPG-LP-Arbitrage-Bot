@@ -1,18 +1,19 @@
-"use client";
+// src/app/page.tsx
 
-import Head from 'next/head';
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
+import * as THREE from 'three';
+import NET from 'vanta/dist/vanta.net.min';
+import { ChakraProvider } from '@chakra-ui/react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Dashboard from '../components/Dashboard';
-import '../app/globals.css';
-import * as THREE from 'three';
-import NET from 'vanta/dist/vanta.net.min';
+import theme from '../styles/theme';
 
 const Home: React.FC = () => {
   const vantaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Ensure THREE is defined on the window object
     if (typeof window !== 'undefined') {
       (window as any).THREE = THREE;
     }
@@ -47,11 +48,7 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <>
-      <Head>
-        <title>CryptoQuest LP Arbitrage Bot</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </Head>
+    <ChakraProvider theme={theme}>
       <div ref={vantaRef} className="fixed top-0 left-0 w-full h-full -z-10"></div>
       <Header />
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
@@ -61,7 +58,7 @@ const Home: React.FC = () => {
         </div>
       </main>
       <Footer />
-    </>
+    </ChakraProvider>
   );
 };
 

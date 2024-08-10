@@ -1,14 +1,5 @@
-modules = ["nodejs-20", "web"]
-compile = "make"
-run = "make build"
+modules = ["nodejs-20"]
 
 [[ports]]
 localPort = 3000
 externalPort = 80
-
-[deployment]
-build = ["sh", "-c", "make"]
-run = ["sh", "-c", "make build"]
-
-[nix]
-channel = "stable-24_05"
